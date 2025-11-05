@@ -2,6 +2,8 @@
 //le7Demo4.js- Illustrating different ways to 
 
 window.onload = () => {
+
+    
     
     
         //Binding an event handler to all radio buttons with the name "contact"

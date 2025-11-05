@@ -9,6 +9,9 @@
 onload = () => {
   document.querySelector("#form1").onsubmit = FormValidation
   document.querySelector("#id1").onclick = ClickTester
+  document.querySelector("[name=firstName]").onchange = (e) =>{
+    console.log("first name changed e: " + e.target.value)
+  } 
 }
 
 function ClickTester(){
