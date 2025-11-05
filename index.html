@@ -114,20 +114,30 @@
                 </div>
                 <div class="meta"> Forms & Javascript</div>
             </section>
-        </main>
-
-        <footer>
-            Tip: use the filter box to quickly find demos. If a link is broken, check the folder name casing or structure.
-        </footer>
+    <section class="card" data-filter="week8">
+        <h2>Week 8</h2>
+        <div class="links">
+            <a href="week8/le8Demo1/index.html" target="_blank">le8Demo1</a>
+            <a href="week8/le8Demo2/index.html" target="_blank">le8Demo2</a>
+            <a href="week8/le8Demo3/index.html" target="_blank">le8Demo3</a>
+            <a href="week8/ModWrapDemo/index.html" target="_blank">ModWrapDemo</a>
+        </div>
+        <div class="meta"> Arrays in Javascript </div>
+    </section>
+    </main>
+    
+    <footer>
+        Tip: use the filter box to quickly find demos. If a link is broken, check the folder name casing or structure.
+    </footer>
     </div>
-
+    
     <script>
         const search = document.getElementById('search');
         const cards = Array.from(document.querySelectorAll('.card'));
 
-        function normalize(s){return s.trim().toLowerCase()}
+        function normalize(s) { return s.trim().toLowerCase() }
 
-        search.addEventListener('input', (e)=>{
+        search.addEventListener('input', (e) => {
             const q = normalize(e.target.value);
             cards.forEach(card=>{
                 const text = normalize(card.textContent + ' ' + (card.getAttribute('data-filter')||''));

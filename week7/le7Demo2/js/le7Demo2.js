@@ -8,6 +8,12 @@
 
 onload = () => {
   document.querySelector("#form1").onsubmit = FormValidation
+  document.querySelector("#id1").onclick = ClickTester
+}
+
+function ClickTester(){
+    console.log("this was clicked: " + this)
+    this.value = "test"
 }
 
 function FormValidation() {
