@@ -1,20 +1,61 @@
 var array = []
 var placeholder 
 onload = ()=> {
-console.log(burger)
+    console.log(burger)
     console.log(sandwich.computeCalories())
     console.log(fries.computeCalories())
     placeholder = document.querySelector("#placeholder")
-    document.querySelector("#saveFood").onclick = saveFoodItem
+    //document.querySelector("#saveFood").onclick = saveFoodItem
+    let form = document.querySelector("#form1") 
+    let radio = document.querySelectorAll(".mealTypePicker")
+    console.log(radio)
+    radio.forEach(element => {
+        // element.onchange = (event) =>{
+        //     console.log(event.target) // <-- this does work, accesses each element similar to using 'this' inside a function bound to an even
+        //     ///console.log(this) <-- does not work, this = Window object from onload
+        //     let value = event.target.value
+        //     switch(value){
+        //         case "BR":
+        //             document.body.style.backgroundColor = "lightyellow"
+        //             break;
+        //         case "LN":
+        //             document.body.style.backgroundColor = "orange"
+        //             break;
+        //         case "DN":
+        //             document.body.style.backgroundColor = "navy"
+        //             break;
+        //         default: break;
+        //     }
+        //}
+    });
+    form.onsubmit = validateForm
 }
 
-function saveFoodItem(){
+
+function validateForm(){
+    console.log("Valdidation started")
     let name = document.querySelector("#food_name").value
-    let quantity = document.querySelector("#quantity").value
+    let weight = document.querySelector("#quantity").value
     let portion = document.querySelector("#portion").value
     let calories = document.querySelector("#calories").value
 
-    let foodItem = new Food(calories,name,portion,quantity)
+    let weightNum = parseInt(weight)
+    let portionNum = parseInt(portion)
+    let caloriesNum = parseInt(calories)
+    if(isNaN(weightNum) || isNaN(portionNum)  || isNaN(caloriesNum)){
+        alert("Invalid inputs")
+        return false
+    }
+
+    saveFoodItem(name, weightNum, caloriesNum, portionNum)
+    return true
+
+   
+}
+function saveFoodItem(name, weight, calories, portion){
+    let foodItem = new Food(calories,name,portion,weight)
+    let checkedRadio = document.querySelector(".mealTypePicker:checked")
+    foodItem.setType(checkedRadio.value)
     array.push(foodItem)
     displayFoodItems()
     console.log(array)
@@ -32,28 +73,47 @@ function displayFoodItems(){
 
 class Food{
 
-    constructor(calories, name, ratio, quantity) {
-        this.calories = calories
+    constructor(calories, name, portion, weight, type) {
+        this.calories = calories  // calories/portion 
         this.name = name
-        this.ratio = ratio
-        this.quantity = quantity
+        this.portionSize = portion // grams
+        this.weight = weight //grams
+        this.type = type
     }  
+    
+    setType(type){
+        console.log("Switching on selection: " + type)
+        switch(type){
+                case "BR":
+                    this.type = "Breakfast"
+                    break;
+                case "LN":
+                    this.type = "Lunch"
+                    break;
+                case "DN":
+                    this.type = "Dinner"
+                    break;
+                default: break;
+        }
+    }
 
     computeCalories() {
         console.log("us: " + this)
-        let total = this.ratio * this.quantity * this.calories
+        let total = ( this.weight / this.portionSize ) * this.calories
         return total.toFixed(2)
     }
 
     foodItemContent() {
-        let content = "<h1>" + this.name + "</h1>"
-        content += "<p>" + this.computeCalories() + "</p>"
+        let content =`<div class='${this.type}'>`
+        content += "<h1>" + this.name + "</h1>"
+        content += "<p>" + this.computeCalories() + " calories </p>"
+        content += "</div>"
         return content
     }
 }
 
-var sandwich = new Food(250,"sandwich", 0.5, 2)
-var burger = new Food(500,"burger", 1, 1)
-var fries = new Food(160,"fries", 1, 3)
+var sandwich = new Food(250,"sandwich", 200, 205, "breakfast")
+var burger = new Food(500,"burger", 250, 250, "lunch")
+var fries = new Food(160,"fries", 80, 120, "lunch")
 
 

@@ -4,16 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
 </head>
 <body>
-    <input type="text" name="food_name" id="food_name" placeholder=" Food name">
-    <input type="text" name="calories" id="calories"  placeholder=" Calories">
-    <input type="text" name="portion" id="portion" placeholder=" Portion size">
-    <input type="text" name="quantity" id="quantity" placeholder="Quantity">
+    <form id="form1" action="" target="_blank" >
+        <input type="text" name="food_name" id="food_name" placeholder=" Food name">
+        <input type="text" name="calories" id="calories"  placeholder=" Calories">
+        <input type="text" name="portion" id="portion" placeholder=" Portion size">
+        <input type="text" name="quantity" id="quantity" placeholder="Quantity">
 
-    <button id="saveFood"> Save food</button>
-
+        <fieldset>
+            <input type="radio" class="mealTypePicker" name="mealType" id="" value="BR" checked> Breakfast
+            <input type="radio" class="mealTypePicker" name="mealType" id="" value="LN"> Lunch
+            <input type="radio" class="mealTypePicker" name="mealType" id="" value="DN"> Dinner
+        </fieldset>
+        <button type="submit" id="saveFood"> Save food</button>
+    </form>
 
     <div id="placeholder"></div>
 </body>
