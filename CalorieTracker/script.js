@@ -1,5 +1,16 @@
 var array = []
 var placeholder 
+var checkboxes
+
+//Accessing Full string name value via string Key
+var extraInfoMap = {
+    "weekend": "Weekend",
+    "eatingOut": "Eating out",
+    "cheatDay": "Cheat Day",
+    "delivery": "Delivery",
+    "mainMeal": "Main Meal",
+    "snack": "Snack"
+}
 onload = ()=> {
     console.log(burger)
     console.log(sandwich.computeCalories())
@@ -9,6 +20,8 @@ onload = ()=> {
     let form = document.querySelector("#form1") 
     let radio = document.querySelectorAll(".mealTypePicker")
     console.log(radio)
+    checkboxes = document.querySelectorAll("[name=extraInfo]")
+
     radio.forEach(element => {
         // element.onchange = (event) =>{
         //     console.log(event.target) // <-- this does work, accesses each element similar to using 'this' inside a function bound to an even
@@ -56,6 +69,13 @@ function saveFoodItem(name, weight, calories, portion){
     let foodItem = new Food(calories,name,portion,weight)
     let checkedRadio = document.querySelector(".mealTypePicker:checked")
     foodItem.setType(checkedRadio.value)
+    let extraArray = []
+    checkboxes.forEach((checkbox)=>{
+        if(checkbox.checked)
+            extraArray.push(checkbox.value)
+        console.log("inner HTML for checkbox: " + checkbox.innerHTML)
+    })
+    foodItem.extraInfo = extraArray
     array.push(foodItem)
     displayFoodItems()
     console.log(array)
@@ -79,7 +99,8 @@ class Food{
         this.portionSize = portion // grams
         this.weight = weight //grams
         this.type = type
-    }  
+        this.extraInfo = []
+       }  
     
     setType(type){
         console.log("Switching on selection: " + type)
@@ -107,6 +128,11 @@ class Food{
         let content =`<div class='${this.type}'>`
         content += "<h1>" + this.name + "</h1>"
         content += "<p>" + this.computeCalories() + " calories </p>"
+        content += "<ul>"
+        this.extraInfo.forEach((item)=>{
+            content += "<li>" + extraInfoMap[item] + "</li>"
+        })
+        content += "</ul>"
         content += "</div>"
         return content
     }
