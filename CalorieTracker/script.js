@@ -21,7 +21,7 @@ onload = ()=> {
     let radio = document.querySelectorAll(".mealTypePicker")
     console.log(radio)
     checkboxes = document.querySelectorAll("[name=extraInfo]")
-
+    form.onsubmit = validateForm
     radio.forEach(element => {
         // element.onchange = (event) =>{
         //     console.log(event.target) // <-- this does work, accesses each element similar to using 'this' inside a function bound to an even
@@ -41,7 +41,6 @@ onload = ()=> {
         //     }
         //}
     });
-    form.onsubmit = validateForm
 }
 
 
