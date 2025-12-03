@@ -17,7 +17,6 @@ $(()=> {
     console.log(fries.computeCalories())
     placeholder = document.querySelector("#placeholder")
     //document.querySelector("#saveFood").onclick = saveFoodItem
-    let form = document.querySelector("form") 
     let radioButtons = $('.mealTypePicker')
     console.log("Jquery radio buttons: " + radioButtons)
     // Old way -- Note element is first index is second
@@ -29,12 +28,9 @@ $(()=> {
     $.each(radioButtons,(index, element)=>{
         console.log("Jquery each 1: ")
         console.log(element)
-        // Old event handling
         element.onchange = (event)=>{
             console.log(event.target.value)
         }
-        
-        // Jquery Event handling
         $(element).change(()=>{
             console.log($(element).val())
         })
@@ -45,7 +41,12 @@ $(()=> {
     })
     let radio = document.querySelectorAll(".mealTypePicker")
     checkboxes = document.querySelectorAll("[name=extraInfo]")
-    form.onsubmit = validateForm
+    //!!!!!!!!!!!!!!!  Binding validation function to SUBMIT EVENT of the FORM !!!!!!!!!!!!!!!!!!!!!
+    let form = document.querySelector("form") 
+    //form.onsubmit = validateForm
+    // Binding validation to submit event using JQUERY !!!!!!!!!!!!!!!!!!!!
+    $("form").submit(validateForm)
+    
     radio.forEach(element => {
         console.log("Foreach: ")
         console.log(element)
@@ -92,6 +93,7 @@ function validateForm(){
     saveFoodItem(name, weightNum, caloriesNum, portionNum)
     return true
 }
+
 function saveFoodItem(name, weight, calories, portion){
     let foodItem = new Food(calories,name,portion,weight)
     let checkedRadio = document.querySelector(".mealTypePicker:checked")
