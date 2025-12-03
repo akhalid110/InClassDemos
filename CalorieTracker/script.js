@@ -11,18 +11,44 @@ var extraInfoMap = {
     "mainMeal": "Main Meal",
     "snack": "Snack"
 }
-onload = ()=> {
+$(()=> {
     console.log(burger)
     console.log(sandwich.computeCalories())
     console.log(fries.computeCalories())
     placeholder = document.querySelector("#placeholder")
     //document.querySelector("#saveFood").onclick = saveFoodItem
-    let form = document.querySelector("#form1") 
+    let form = document.querySelector("form") 
+    let radioButtons = $('.mealTypePicker')
+    console.log("Jquery radio buttons: " + radioButtons)
+    // Old way -- Note element is first index is second
+    // radioButtons.forEach((element,index)=>{
+    //     console.log(element)
+    // })
+    // New Way -- Note index is first element is second
+    // ANother way to use each()
+    $.each(radioButtons,(index, element)=>{
+        console.log("Jquery each 1: ")
+        console.log(element)
+        // Old event handling
+        element.onchange = (event)=>{
+            console.log(event.target.value)
+        }
+        
+        // Jquery Event handling
+        $(element).change(()=>{
+            console.log($(element).val())
+        })
+    })
+    $(radioButtons).each((index, element)=>{
+        console.log("Jquery each 2: ") 
+        console.log(element)
+    })
     let radio = document.querySelectorAll(".mealTypePicker")
-    console.log(radio)
     checkboxes = document.querySelectorAll("[name=extraInfo]")
     form.onsubmit = validateForm
     radio.forEach(element => {
+        console.log("Foreach: ")
+        console.log(element)
         // element.onchange = (event) =>{
         //     console.log(event.target) // <-- this does work, accesses each element similar to using 'this' inside a function bound to an even
         //     ///console.log(this) <-- does not work, this = Window object from onload
@@ -41,7 +67,7 @@ onload = ()=> {
         //     }
         //}
     });
-}
+})
 
 
 function validateForm(){
@@ -50,7 +76,12 @@ function validateForm(){
     let weight = document.querySelector("#quantity").value
     let portion = document.querySelector("#portion").value
     let calories = document.querySelector("#calories").value
-
+    let checkedRadio = document.querySelector(".mealTypePicker:checked") 
+    console.log("Checked radio box: "+ ( checkedRadio ?? "Value is null"))
+    if(!checkedRadio){
+        alert("Please select a checbox")
+        return false
+    }
     let weightNum = parseInt(weight)
     let portionNum = parseInt(portion)
     let caloriesNum = parseInt(calories)
@@ -58,11 +89,8 @@ function validateForm(){
         alert("Invalid inputs")
         return false
     }
-
     saveFoodItem(name, weightNum, caloriesNum, portionNum)
     return true
-
-   
 }
 function saveFoodItem(name, weight, calories, portion){
     let foodItem = new Food(calories,name,portion,weight)
