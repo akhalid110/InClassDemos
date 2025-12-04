@@ -1,7 +1,10 @@
 
 var pokeArray = []
-var displayArray =[]
+var displayArray = []
 var count = 0
+var timeout = 3000 // Hoisted variable for Timeout duration
+var timer // Hoisted variable for interval ID
+
 $(() => {
     // Make call to pokeAPI and get charmander
     //$.ajax()
@@ -17,8 +20,12 @@ $(() => {
         // $(element).change(()=>{
         //     console.log($(element).val())
         // })
+        
         $(element).change(handleRadioChange)
     })
+    // !!!!!!!!!!!!! Registering Event handler for SELECT (dropdown)
+    $("#dropdown").change(handleDropdownChange)
+    
     
     // ------ FOR LAB 3 -----------
     callAjax(
@@ -34,6 +41,22 @@ $(() => {
     $("#playPokemon").click(startPokemonTimer)
     
 })
+/// Handling DropDown (SELECT element) change event
+function handleDropdownChange(){
+    console.log(this.value) // this = Select element itself
+    console.log($("#dropdown").val()) // Selecting the SELECT element using jquery
+    console.log($("#dropdown option:selected").val())// Using pseudo Selector ":selected" to 
+    //^ directly fetch selected OPTION element, that is a DESCENDANT of our SELECT id="dropdown"
+    //Safely parsing selected option value
+    let newTimeout = parseInt(this.value)
+    if(isNaN(newTimeout)){
+        alert("SELECTED A NON-NUMERICAL OPTION")
+        return
+    }
+    // Storing new timeout
+    timeout = newTimeout
+    restartTimer()
+}
 
 
 function handleRadioChange(){
@@ -49,7 +72,14 @@ function handleRadioChange(){
 }
 
 function startPokemonTimer() {
-    setInterval(loopThroughPokemon, 750)
+    // Hoisting interval ID so that we can clear it 
+    timer = setInterval(loopThroughPokemon, timeout)
+}
+
+function restartTimer(){
+    // Clearing and restarting interval
+    clearInterval(timer)
+    startPokemonTimer()
 }
 
 function loopThroughPokemon(){
